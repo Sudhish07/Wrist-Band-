@@ -1,0 +1,53 @@
+body{
+font-family:Arial;
+margin:0;
+background:#f5f7fb;
+}
+
+.navbar{
+background:#0077ff;
+padding:15px;
+display:flex;
+justify-content:center;
+gap:40px;
+}
+
+.navbar a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.container{
+padding:30px;
+text-align:center;
+}
+
+.cards{
+display:flex;
+gap:20px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+width:200px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card h2{
+margin:10px 0;
+}
+
+.map{
+height:500px;
+width:100%;
+max-width:900px;
+margin:auto;
+margin-top:20px;
+border-radius:10px;
+overflow:hidden;
+}
