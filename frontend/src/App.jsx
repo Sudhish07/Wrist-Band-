@@ -3,6 +3,7 @@ import Dashboard from "./Pages/Dashboard"
 import MapPage from "./Pages/MapPage"
 import Alerts from "./Pages/Alert"
 import Navbar from "./component/Navbar"
+import Login from "./Pages/Login"
 import "./style.css"
 
 
@@ -11,7 +12,8 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Login/>} />
+        <Route path="/Dashboard" element={<Dashboard/>} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/alerts" element={<Alerts />} />
       </Routes>

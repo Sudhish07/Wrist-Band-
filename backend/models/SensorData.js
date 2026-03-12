@@ -1,28 +1,18 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../db/db");
+const { DataTypes } = require("sequelize")
+const sequelize = require("../db/db")
 
-const SensorData = sequelize.define("SensorData", {
+const SensorData = sequelize.define("SensorData",{
 
-  heart_rate: {
-    type: DataTypes.INTEGER
-  },
+device_id: DataTypes.STRING,
+heart_rate: DataTypes.INTEGER,
+spo2: DataTypes.INTEGER,
+accel_x: DataTypes.FLOAT,
+accel_y: DataTypes.FLOAT,
+accel_z: DataTypes.FLOAT,
+gyro_x: DataTypes.FLOAT,
+gyro_y: DataTypes.FLOAT,
+gyro_z: DataTypes.FLOAT
 
-  spo2: {
-    type: DataTypes.INTEGER
-  },
+})
 
-  latitude: {
-    type: DataTypes.FLOAT
-  },
-
-  longitude: {
-    type: DataTypes.FLOAT
-  },
-
-  status: {
-    type: DataTypes.STRING
-  }
-
-});
-
-module.exports = SensorData;
+module.exports = SensorData

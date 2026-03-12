@@ -1,37 +1,36 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
+import {useEffect,useState} from "react"
+import api from "../service/api"
 
-function Dashboard() {
-  const [data, setData] = useState({})
+function Dashboard(){
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/sensor/latest")
-      .then((res) => setData(res.data))
-  }, [])
+const[data,setData] = useState([])
 
-  return (
-    <div className="container">
-      <h1>Smart Wristband Dashboard</h1>
+useEffect(()=>{
 
-      <div className="cards">
-        <div className="card">
-          <h2>Heart Rate</h2>
-          <p>{data.heart_rate} bpm</p>
-        </div>
+api.get("/sensor/latest").then(res=>setData(res.data))
 
-        <div className="card">
-          <h2>SpO2</h2>
-          <p>{data.spo2}%</p>
-        </div>
+},[])
 
-        <div className="card">
-          <h2>Status</h2>
-          <p>{data.status}</p>
-        </div>
-      </div>
-    </div>
-  )
+return(
+
+<div>
+
+<h1>Sensor Data</h1>
+
+{data.map(d=>(
+
+<div key={d.id}>
+
+Heart Rate: {d.heart_rate}
+
+</div>
+
+))}
+
+</div>
+
+)
+
 }
 
 export default Dashboard

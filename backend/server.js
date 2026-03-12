@@ -4,12 +4,13 @@ const cors = require("cors");
 const sequelize = require("./db/db");
 const sensorRoutes = require("./routes/sensorRoutes");
 const alertRoutes = require("./routes/alert.routes")
-
+const authRoutes =require("./routes/authRoutes")
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+require("./mqtt/mqttClients")
+app.use("/api/auth",authRoutes)
 app.use("/sensor",sensorRoutes);
 app.use("/api", alertRoutes);
 
