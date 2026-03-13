@@ -2,12 +2,20 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 function Dashboard() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/sensor/latest")
-      .then((res) => setData(res.data))
+      .then((res) => {
+        setData(res.data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error)
+        setLoading(false)
+      })
   }, [])
 
   return (
@@ -17,17 +25,17 @@ function Dashboard() {
       <div className="cards">
         <div className="card">
           <h2>Heart Rate</h2>
-          <p>{data.heart_rate} bpm</p>
+          <p>{loading ? '--' : data?.heart_rate ?? '--'} bpm</p>
         </div>
 
         <div className="card">
           <h2>SpO2</h2>
-          <p>{data.spo2}%</p>
+          <p>{loading ? '--' : data?.spo2 ?? '--'}%</p>
         </div>
 
         <div className="card">
           <h2>Status</h2>
-          <p>{data.status}</p>
+          <p>{loading ? '--' : data?.status ?? '--'}</p>
         </div>
       </div>
     </div>
