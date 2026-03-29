@@ -1,12 +1,8 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
+const alertController = require("../controllers/alert.controller");
 
-const alertController = require("../controllers/alert.controller")
+router.get("/", alertController.getAlerts);
+router.post("/", alertController.createAlert);
 
-// create alert
-router.post("/alerts", alertController.createAlert)
-
-// get alerts
-router.get("/alerts", alertController.getAlerts)
-
-module.exports = router
+module.exports = router;

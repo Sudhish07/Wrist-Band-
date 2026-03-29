@@ -1,12 +1,20 @@
-const { DataTypes } = require("sequelize")
-const sequelize = require("../db/db")
+const { DataTypes } = require("sequelize");
+const sequelize = require("../db/db");
 
-const Wristband = sequelize.define("Wristband",{
+const Wristband = sequelize.define(
+  "Wristband",
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    device_id: { type: DataTypes.STRING, unique: true, allowNull: false },
+    device_name: { type: DataTypes.STRING, allowNull: false },
+    user_id: { type: DataTypes.INTEGER, allowNull: true },
+  },
+  {
+    tableName: "wristbands",
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: false,
+  }
+);
 
-device_id: DataTypes.STRING,
-device_name: DataTypes.STRING,
-user_id: DataTypes.INTEGER
-
-})
-
-module.exports = Wristband
+module.exports = Wristband;

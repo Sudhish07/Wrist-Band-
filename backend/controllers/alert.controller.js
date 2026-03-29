@@ -1,34 +1,43 @@
-const Alert = require("../models/Alerts")
+const Alert = require("../models/Alerts");
 
-// create alert
-exports.createAlert = async (req,res)=>{
-try{
+exports.getAlerts = async (req, res) => {
+  try {
+    const alerts = await Alert.findAll({
+      order: [["created_at", "DESC"]],
+    });
 
-const {message, latitude, longitude} = req.body
+    return res.status(200).json(alerts);
+  } catch (error) {
+    console.error("getAlerts error:", error);
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-const alert = await Alert.create({
-message,
-latitude,
-longitude
-})
+exports.createAlert = async (req, res) => {
+  try {
+    const {
+      device_id = "WRIST-001",
+      alert_type = "EMERGENCY",
+      message,
+      heart_rate = 0,
+      spo2 = 0,
+      latitude = null,
+      longitude = null,
+    } = req.body;
 
-res.status(201).json(alert)
+    const alert = await Alert.create({
+      device_id,
+      alert_type,
+      message,
+      heart_rate,
+      spo2,
+      latitude,
+      longitude,
+    });
 
-}catch(error){
-res.status(500).json({error:error.message})
-}
-}
-
-
-// get all alerts
-exports.getAlerts = async (req,res)=>{
-try{
-
-const alerts = await Alert.findAll()
-
-res.json(alerts)
-
-}catch(error){
-res.status(500).json({error:error.message})
-}
-}
+    return res.status(201).json(alert);
+  } catch (error) {
+    console.error("createAlert error:", error);
+    return res.status(500).json({ message: error.message });
+  }
+};
