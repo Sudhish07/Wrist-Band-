@@ -24,24 +24,28 @@ exports.signup = async (req, res) => {
       name: name.trim(),
       email: email.trim().toLowerCase(),
       password: hashedPassword,
+      role: "user",
     });
 
     const token = jwt.sign(
       {
         id: user.id,
         email: user.email,
+        role: user.role,
       },
       process.env.JWT_SECRET || "wristband_secret_key",
-      { expiresIn: "7d" }
+      { expiresIn: "6h" }
     );
 
     return res.status(201).json({
       message: "Signup successful",
       token,
+      expiresIn: 6 * 60 * 60 * 1000,
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
@@ -75,6 +79,7 @@ exports.login = async (req, res) => {
       {
         id: user.id,
         email: user.email,
+        role: user.role,
       },
       process.env.JWT_SECRET || "wristband_secret_key",
       { expiresIn: "6h" }
@@ -83,10 +88,12 @@ exports.login = async (req, res) => {
     return res.status(200).json({
       message: "Login successful",
       token,
+      expiresIn: 6 * 60 * 60 * 1000,
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {

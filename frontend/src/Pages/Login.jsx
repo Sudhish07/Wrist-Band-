@@ -9,7 +9,6 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -35,8 +34,17 @@ function Login() {
         return;
       }
 
-      saveLogin(res.data.token, res.data.user || null);
-      navigate("/dashboard");
+      saveLogin(
+        res.data.token,
+        res.data.user || null,
+        res.data.expiresIn || 6 * 60 * 60 * 1000
+      );
+
+      if (res.data.user?.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (err) {
       setError(
         err?.response?.data?.message ||

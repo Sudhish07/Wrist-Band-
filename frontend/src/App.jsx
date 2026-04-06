@@ -3,12 +3,14 @@ import Dashboard from "./Pages/Dashboard";
 import Alerts from "./Pages/Alert";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import AdminDashboard from "./Pages/AdminDashboard";
 import Navbar from "./component/Navbar";
+import AdminRoute from "./component/AdminRoute";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import "./style.css";
 
 function AppRoutes() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
 
   return (
     <>
@@ -16,11 +18,11 @@ function AppRoutes() {
       <Routes>
         <Route
           path="/"
-          element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Signup />}
+          element={isAuthenticated ? <Navigate to={isAdmin ? "/admin" : "/dashboard"} replace /> : <Signup />}
         />
         <Route
           path="/login"
-          element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />}
+          element={isAuthenticated ? <Navigate to={isAdmin ? "/admin" : "/dashboard"} replace /> : <Login />}
         />
         <Route
           path="/dashboard"
@@ -29,6 +31,14 @@ function AppRoutes() {
         <Route
           path="/alerts"
           element={isAuthenticated ? <Alerts /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
         />
       </Routes>
     </>

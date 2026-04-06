@@ -13,6 +13,7 @@ require("./services/mqttService");
 const sensorRoutes = require("./routes/sensorRoutes");
 const alertRoutes = require("./routes/alert.routes");
 const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 app.use("/api/sensor", sensorRoutes);
 app.use("/api/alerts", alertRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 

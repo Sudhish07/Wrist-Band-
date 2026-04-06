@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, isAdmin, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -31,16 +31,26 @@ function Navbar() {
               >
                 Dashboard
               </Link>
+
               <Link
                 to="/alerts"
                 className={location.pathname === "/alerts" ? "nav-link active" : "nav-link"}
               >
                 Alerts
               </Link>
+
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className={location.pathname === "/admin" ? "nav-link active" : "nav-link"}
+                >
+                  Admin Dashboard
+                </Link>
+              )}
             </>
           )}
 
-          {!isAuthenticated ? (
+          {!isAuthenticated && (
             <>
               <Link
                 to="/login"
@@ -55,7 +65,9 @@ function Navbar() {
                 Sign Up
               </Link>
             </>
-          ) : (
+          )}
+
+          {isAuthenticated && (
             <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
