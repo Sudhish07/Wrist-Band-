@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import api from "../service/api";
+import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
+  const { user } = useAuth(); // ✅ Get logged-in user
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
@@ -37,7 +40,12 @@ function Dashboard() {
       <div className="hero-section">
         <div>
           <p className="section-tag">Live Monitoring</p>
-          <h1>Smart Wristband Dashboard</h1>
+
+          {/* ✅ UPDATED HERE */}
+          <h1>
+            Welcome {user?.name || "User"} 👋
+          </h1>
+
           <p className="hero-text">
             Track heart rate, SpO₂, battery level, device status and emergency activity in one place.
           </p>
@@ -77,12 +85,16 @@ function Dashboard() {
 
             <div className="metric-card">
               <p className="metric-label">Battery</p>
-              <h3>{data.battery_percent != null ? `${data.battery_percent}%` : "--"}</h3>
+              <h3>
+                {data.battery_percent != null ? `${data.battery_percent}%` : "--"}
+              </h3>
             </div>
 
             <div className="metric-card">
               <p className="metric-label">Battery Voltage</p>
-              <h3>{data.battery_voltage != null ? `${data.battery_voltage} V` : "--"}</h3>
+              <h3>
+                {data.battery_voltage != null ? `${data.battery_voltage} V` : "--"}
+              </h3>
             </div>
           </div>
 

@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+// ✅ SIGNUP (NO AUTO LOGIN)
 exports.signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -20,39 +21,24 @@ exports.signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({
+    await User.create({
       name: name.trim(),
       email: email.trim().toLowerCase(),
       password: hashedPassword,
       role: "user",
     });
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      },
-      process.env.JWT_SECRET || "wristband_secret_key",
-      { expiresIn: "6h" }
-    );
-
+    // ✅ Only success message
     return res.status(201).json({
-      message: "Signup successful",
-      token,
-      expiresIn: 6 * 60 * 60 * 1000,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      message: "Signup successful. Please login.",
     });
+
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
+// ✅ LOGIN
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -96,6 +82,7 @@ exports.login = async (req, res) => {
         role: user.role,
       },
     });
+
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

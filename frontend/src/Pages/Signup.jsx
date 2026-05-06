@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../service/api";
-import { useAuth } from "../context/AuthContext";
 
 function Signup() {
   const navigate = useNavigate();
-  const { login: saveLogin } = useAuth();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -35,19 +33,15 @@ function Signup() {
     try {
       setLoading(true);
 
-      const res = await api.post("/auth/signup", {
+      await api.post("/auth/signup", {
         name: formData.name.trim(),
         email: formData.email.trim(),
         password: formData.password.trim(),
       });
 
-      if (!res.data?.token) {
-        setError("Invalid signup response from server");
-        return;
-      }
+      // ✅ Redirect to login (NO auto login)
+      navigate("/login");
 
-      saveLogin(res.data.token, res.data.user || null);
-      navigate("/dashboard");
     } catch (err) {
       setError(err?.response?.data?.message || "Signup failed");
     } finally {
@@ -72,7 +66,6 @@ function Signup() {
             placeholder="Name"
             value={formData.name}
             onChange={handleChange}
-            autoComplete="name"
           />
 
           <input
@@ -81,7 +74,6 @@ function Signup() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            autoComplete="email"
           />
 
           <input
@@ -90,7 +82,6 @@ function Signup() {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            autoComplete="current-password"
           />
 
           <button type="submit" disabled={loading}>

@@ -39,6 +39,13 @@ const Alert = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: true,
     },
+
+    // ✅ ADDED: link alert to user
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+
     is_viewed: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
